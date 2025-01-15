@@ -1,11 +1,15 @@
 "use client";
-import { ADD_TO_CART } from "../product.action";
 
-export default function Product({ product }: { product: Product }) {
-
+export default function Product({
+  product,
+  onAddToCart,
+}: {
+  product: Product;
+  onAddToCart: (product: Product) => Promise<void>;
+}) {
   const addToCart = async () => {
-    await ADD_TO_CART(product);
-  }  
+    await onAddToCart(product);
+  };
 
   return (
     <div key={product.id} className="group">
@@ -15,7 +19,9 @@ export default function Product({ product }: { product: Product }) {
         className="aspect-square w-full rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8]"
       />
       <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
-      <p className="mt-1 text-lg font-medium text-gray-900">${product.price.amount}</p>
+      <p className="mt-1 text-lg font-medium text-gray-900">
+        ${product.price.amount}
+      </p>
       <button
         onClick={addToCart}
         type="button"
