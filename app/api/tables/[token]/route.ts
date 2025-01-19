@@ -12,8 +12,9 @@ const tables: ITable[] = [
 ];
 
 export async function GET(request: NextRequest, {params}: RouteParams):Promise<NextResponse>{
-    console.log("creating cookie");
-    const { token } = params;
+    
+    const { token } = await params;
+    console.log("creating cookie with token: ", token);
     if(!token) 
         return NextResponse.json({error: "Token is required"}, {status: 400});
 
@@ -23,8 +24,8 @@ export async function GET(request: NextRequest, {params}: RouteParams):Promise<N
         return NextResponse.json({error: "Table not found"}, {status: 404});
 
     const response = NextResponse.redirect(new URL(`/`, request.url));
-    response.cookies.set('tableToken', table.token, { httpOnly: true, secure: true, sameSite: 'strict', maxAge: 60 * 60 * 24 });
-    response.cookies.set('tableName', table.name, { httpOnly: true, secure: true, sameSite: 'strict', maxAge: 60 * 60 * 24 });
+    response.cookies.set('tableToken', table.token, { httpOnly: false, secure: true, sameSite: 'strict', maxAge: 60 * 60 * 24 });
+    response.cookies.set('tableName', table.name, { httpOnly: false, secure: true, sameSite: 'strict', maxAge: 60 * 60 * 24 });
 
     return response;
 
