@@ -15,7 +15,7 @@ interface ITable {
 }
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     token: string;
-  };
+  }>;
 }

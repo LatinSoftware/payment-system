@@ -29,9 +29,6 @@ export default function Home() {
     setCartProducts(cart);
   };
 
-  const handleCheckout = async () => {
-    await CHECKOUT();
-  };
 
   if (loading) {
     return <div>Loading...</div>;
