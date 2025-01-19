@@ -100,13 +100,16 @@ export async function ADD_TO_CART(product: Product) {
   revalidatePath("/");
 }
 
-export async function CHECKOUT() {
-  console.log("CHECKOUT");
+export async function CHECKOUT(products: Product[], table: string) {
+  console.log("CHECKOUT", {table});
 
   const session = await stripe.checkout.sessions.create({
-    line_items: cart_products.map(({price}) => ({price: price.id, quantity: 1})),
+    line_items: products.map(({price}) => ({price: price.id, quantity: 1})),
     mode: 'payment',
     success_url: 'http://localhost:3000/success',
+    metadata: {
+      table_id: table
+    }
   });
 
   if (!session.url) return;
